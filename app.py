@@ -4,13 +4,13 @@ import datetime
 import openai
 
 # Configuração do cliente Notion (substitua com sua chave de integração)
-notion = Client(auth=NOTION_TOKEN)
+notion = Client(auth=st.secret["NOTION_TOKEN"])
 
 # ID do banco de dados do Notion (substitua com o ID do seu banco de dados)
 DATABASE_ID = "1333918868ec8043896ce777ce180e42"
 
 # Token da API da OpenAI
-openai.api_key = OPENAI_API_KEY
+openai.api_key = st.secret["OPENAI_API_KEY"]
 
 # Função para enviar dados ao Notion
 def enviar_para_notion(dados, especialidade):
