@@ -23,7 +23,7 @@ def enviar_para_notion(dados, especialidade):
             "Data de Nascimento": {"date": {"start": dados["data_nascimento"].isoformat()}},
             "CPF": {"rich_text": [{"text": {"content": dados["cpf"]}}]},
             "Telefone": {"phone_number": dados["telefone"]},
-            "Email": {"email": dados["email"]},
+            "Email": {"email": {"content": dados["email"]}},
             "Queixa Principal": {"rich_text": [{"text": {"content": dados["queixa_principal"]}}]},
             "Alergias Medicamentosas": {"rich_text": [{"text": {"content": dados["alergias"]}}]},
             "Uso de Medicamentos": {"rich_text": [{"text": {"content": dados["medicamentos"]}}]},
@@ -43,7 +43,7 @@ def obter_especialidade_recomendada(queixa):
             model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "Você é um assistente que recomenda especialidades odontológicas."},
-                {"role": "user", "content": f"A queixa do paciente é: '{queixa}'. Responda com apenas o nome da especialidade odontológica recomendada para este caso, sem explicações adicionais. Você poderá apenas escolher entre as opções: Ortodontia, Endodontia, Periodontia, Cirurgia, Dentística, Prótese, Odontopediatria, Estomatologia, Radiologia, Harmonização Facial e Implantodontia. Não coloque o ponto final na mensagem. "}
+                {"role": "user", "content": f"A queixa do paciente é: '{queixa}'. Responda com apenas o nome da especialidade odontológica recomendada para este caso, sem explicações adicionais. Você poderá apenas escolher entre as opções: Ortodontia, Endodontia, Periodontia, Cirurgia, Dentística, Prótese, Odontopediatria, Estomatologia, Radiologia, Harmonização Facial e Implantodontia. Não coloque o ponto final na mensagem."}
             ],
             max_tokens=10,
             temperature=0
@@ -83,18 +83,18 @@ def tela_inicial():
     with col1:
         if st.button("Nova Consulta"):
             st.session_state.pagina = "nova_consulta"
-            st.experimental_rerun()  # Atualiza a página imediatamente
+            st.experimental_set_query_params(page="nova_consulta")
     with col2:
         if st.button("Verificar Status de Consulta"):
             st.session_state.pagina = "verificar_status"
-            st.experimental_rerun()  # Atualiza a página imediatamente
+            st.experimental_set_query_params(page="verificar_status")
 
 # Tela de nova consulta
 def tela_nova_consulta():
     st.header("Agendamento de Nova Consulta")
     if st.button("⬅ Voltar"):
         st.session_state.pagina = "inicial"
-        st.experimental_rerun()  # Atualiza a página imediatamente
+        st.experimental_set_query_params(page="inicial")
 
     with st.form("consulta_form"):
         nome = st.text_input("Nome")
@@ -133,10 +133,9 @@ def tela_nova_consulta():
             especialidade = obter_especialidade_recomendada(queixa_principal)
             enviar_para_notion(dados, especialidade)
             
-            # Define a especialidade e exibe a tela de confirmação
             st.session_state.especialidade = especialidade
             st.session_state.pagina = "confirmacao"
-            st.experimental_rerun()  # Atualiza a página imediatamente
+            st.experimental_set_query_params(page="confirmacao")
 
 # Tela de confirmação após o agendamento
 def tela_confirmacao():
@@ -145,14 +144,14 @@ def tela_confirmacao():
     st.info("Seus dados foram enviados com sucesso! Em breve, entraremos em contato para confirmar a data da sua consulta.")
     if st.button("Voltar ao início"):
         st.session_state.pagina = "inicial"
-        st.experimental_rerun()  # Atualiza a página imediatamente
+        st.experimental_set_query_params(page="inicial")
 
 # Tela de verificação de status de consulta
 def tela_verificar_status():
     st.header("Verificar Status da Consulta")
     if st.button("⬅ Voltar"):
         st.session_state.pagina = "inicial"
-        st.experimental_rerun()  # Atualiza a página imediatamente
+        st.experimental_set_query_params(page="inicial")
 
     cpf = st.text_input("Informe o CPF para verificar o status")
     verificar_button = st.button("Verificar")
