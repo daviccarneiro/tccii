@@ -83,18 +83,15 @@ def tela_inicial():
     with col1:
         if st.button("Nova Consulta"):
             st.session_state.pagina = "nova_consulta"
-            st.query_params(page="nova_consulta")
     with col2:
         if st.button("Verificar Status de Consulta"):
             st.session_state.pagina = "verificar_status"
-            st.query_params(page="verificar_status")
 
 # Tela de nova consulta
 def tela_nova_consulta():
     st.header("Agendamento de Nova Consulta")
     if st.button("⬅ Voltar"):
         st.session_state.pagina = "inicial"
-        st.query_params(page="inicial")
 
     with st.form("consulta_form"):
         nome = st.text_input("Nome")
@@ -135,7 +132,6 @@ def tela_nova_consulta():
             
             st.session_state.especialidade = especialidade
             st.session_state.pagina = "confirmacao"
-            st.query_params(page="confirmacao")
 
 # Tela de confirmação após o agendamento
 def tela_confirmacao():
@@ -144,14 +140,12 @@ def tela_confirmacao():
     st.info("Seus dados foram enviados com sucesso! Em breve, entraremos em contato para confirmar a data da sua consulta.")
     if st.button("Voltar ao início"):
         st.session_state.pagina = "inicial"
-        st.query_params(page="inicial")
 
 # Tela de verificação de status de consulta
 def tela_verificar_status():
     st.header("Verificar Status da Consulta")
     if st.button("⬅ Voltar"):
         st.session_state.pagina = "inicial"
-        st.query_params(page="inicial")
 
     cpf = st.text_input("Informe o CPF para verificar o status")
     verificar_button = st.button("Verificar")
