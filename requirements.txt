@@ -1,2 +1,2 @@
 notion-client
-openai
+google-cloud-aiplatform
