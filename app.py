@@ -42,7 +42,7 @@ def obter_especialidade_recomendada(queixa):
     try:
         # Instancia o modelo Gemini e cria o prompt de entrada
         model = genai.GenerativeModel("gemini-1.5-flash")
-        prompt = f"A queixa do paciente é: '{queixa}'. Responda com apenas o nome da especialidade odontológica recomendada para este caso, sem explicações adicionais. Escolha entre: Ortodontia, Endodontia, Periodontia, Cirurgia, Dentística, Prótese, Odontopediatria, Estomatologia, Radiologia, Harmonização Facial e Implantodontia."
+        prompt = f"A queixa do paciente é: '{queixa}'. Responda com apenas o nome da especialidade odontológica recomendada para este caso, sem explicações adicionais. Escolha entre: Ortodontia, Endodontia, Periodontia, Cirurgia, Dentística, Prótese, Odontopediatria, Estomatologia, Radiologia, Harmonização Facial e Implantodontia. Caso algo fuja dessas possibilidades, responda apenas com 'Verificar'."
 
         # Geração de conteúdo usando o modelo
         response = model.generate_content(prompt)
