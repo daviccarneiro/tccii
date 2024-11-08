@@ -1,7 +1,7 @@
 import streamlit as st
 from notion_client import Client
 import datetime
-import openai
+from google.cloud import aiplatform
 
 # Configuração do cliente Notion (substitua com sua chave de integração)
 notion = Client(auth=st.secrets["NOTION_TOKEN"])
@@ -9,8 +9,13 @@ notion = Client(auth=st.secrets["NOTION_TOKEN"])
 # ID do banco de dados do Notion (substitua com o ID do seu banco de dados)
 DATABASE_ID = "1333918868ec8043896ce777ce180e42"
 
-# Token da API da OpenAI
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+# Configuração do Vertex AI
+API_KEY = "AIzaSyCMePoafkLMGdQgl_itYvu_kdiNtidIZSk"
+PROJECT_ID = "chatbot-novo"
+LOCATION = "us-central1"  # Localização do modelo
+MODEL_NAME = "text-bison-001"  # Nome do modelo Gemini 1.5 Flash
+
+aiplatform.init(api_key=API_KEY, project=PROJECT_ID, location=LOCATION)
 
 # Função para enviar dados ao Notion
 def enviar_para_notion(dados, especialidade):
@@ -36,23 +41,20 @@ def enviar_para_notion(dados, especialidade):
     )
     return response
 
-# Função para obter a especialidade recomendada usando a nova estrutura de ChatCompletion
+# Função para obter a especialidade recomendada usando o modelo Gemini
 def obter_especialidade_recomendada(queixa):
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",  # Escolha um modelo disponível para você, como "gpt-3.5-turbo" ou "gpt-4"
-            messages=[
-                {"role": "system", "content": "Você é um assistente que recomenda especialidades odontológicas."},
-                {"role": "user", "content": f"A queixa do paciente é: '{queixa}'. Responda com apenas o nome da especialidade odontológica recomendada para este caso, sem explicações adicionais. Você poderá apenas escolher entre as opções: Ortodontia, Endodontia, Periodontia, Cirurgia, Dentística, Prótese, Odontopediatria, Estomatologia, Radiologia, Harmonização Facial e Implantodontia."}
-            ],
-            max_tokens=10,
-            temperature=0
-        )
-        
-        especialidade = response['choices'][0]['message']['content'].strip()
+        # Criação do payload de entrada para o modelo
+        prompt = f"A queixa do paciente é: '{queixa}'. Responda com apenas o nome da especialidade odontológica recomendada para este caso, sem explicações adicionais. Escolha entre: Ortodontia, Endodontia, Periodontia, Cirurgia, Dentística, Prótese, Odontopediatria, Estomatologia, Radiologia, Harmonização Facial e Implantodontia."
+
+        # Solicitação ao modelo usando a API Vertex AI
+        model = aiplatform.TextGenerationModel.from_pretrained(MODEL_NAME)
+        response = model.predict(prompt)
+
+        especialidade = response.text.strip()
         return especialidade
     except Exception as e:
-        st.error(f"Erro ao consultar a API da OpenAI: {e}")
+        st.error(f"Erro ao consultar a API do Google Vertex AI: {e}")
         return "Erro"
 
 # Função para verificar o status da consulta no Notion pelo CPF
