@@ -24,7 +24,7 @@ def enviar_para_notion(dados, especialidade):
             "Data de Nascimento": {"date": {"start": dados["data_nascimento"].isoformat()}},
             "CPF": {"rich_text": [{"text": {"content": dados["cpf"]}}]},
             "Telefone": {"phone_number": dados["telefone"]},
-            "Email": {"email": {"content": dados["email"]}},
+            "Email": {"email": dados["email"]},  # Corrigido para ser um campo de e-mail válido
             "Queixa Principal": {"rich_text": [{"text": {"content": dados["queixa_principal"]}}]},
             "Alergias Medicamentosas": {"rich_text": [{"text": {"content": dados["alergias"]}}]},
             "Uso de Medicamentos": {"rich_text": [{"text": {"content": dados["medicamentos"]}}]},
