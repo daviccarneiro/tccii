@@ -36,7 +36,7 @@ def enviar_para_notion(dados, especialidade):
     )
     return response
 
-# Função para obter a especialidade recomendada usando a API da OpenAI com o modelo de chat
+# Função para obter a especialidade recomendada usando a API da OpenAI com o novo formato
 def obter_especialidade_recomendada(queixa):
     try:
         response = openai.ChatCompletion.create(
