@@ -10,7 +10,7 @@ notion = Client(auth=st.secrets["NOTION_TOKEN"])
 DATABASE_ID = "1333918868ec8043896ce777ce180e42"
 
 # Configuração da API Google Gemini
-API_KEY = "AIzaSyCMePoafkLMGdQgl_itYvu_kdiNtidIZSk"
+API_KEY = st.secrets["GEMINI_KEY"]
 genai.configure(api_key=API_KEY)
 
 # Função para enviar dados ao Notion
