@@ -36,17 +36,20 @@ def enviar_para_notion(dados, especialidade):
     )
     return response
 
-# Função para obter a especialidade recomendada usando a API da OpenAI com o novo formato
+# Função para obter a especialidade recomendada usando a nova estrutura de ChatCompletion
 def obter_especialidade_recomendada(queixa):
     try:
-        response = openai.Completion.create(
-            model="gpt-4-turbo",  # Atualize para um modelo válido
-            prompt=f"A queixa do paciente é: '{queixa}'. Responda com apenas o nome da especialidade odontológica recomendada para este caso, sem explicações adicionais. Você poderá apenas escolher entre as opções: Ortodontia, Endodontia, Periodontia, Cirurgia, Dentística, Prótese, Odontopediatria, Estomatologia, Radiologia, Harmonização Facial e Implantodontia.",
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",  # Escolha um modelo disponível para você, como "gpt-3.5-turbo" ou "gpt-4"
+            messages=[
+                {"role": "system", "content": "Você é um assistente que recomenda especialidades odontológicas."},
+                {"role": "user", "content": f"A queixa do paciente é: '{queixa}'. Responda com apenas o nome da especialidade odontológica recomendada para este caso, sem explicações adicionais. Você poderá apenas escolher entre as opções: Ortodontia, Endodontia, Periodontia, Cirurgia, Dentística, Prótese, Odontopediatria, Estomatologia, Radiologia, Harmonização Facial e Implantodontia."}
+            ],
             max_tokens=10,
             temperature=0
         )
         
-        especialidade = response['choices'][0]['text'].strip()
+        especialidade = response['choices'][0]['message']['content'].strip()
         return especialidade
     except Exception as e:
         st.error(f"Erro ao consultar a API da OpenAI: {e}")
