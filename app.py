@@ -40,7 +40,7 @@ def enviar_para_notion(dados, especialidade):
 def obter_especialidade_recomendada(queixa):
     try:
         response = openai.ChatCompletion.create(
-            model="gpt-4o-mini",
+            model="gpt-4-turbo",  # Atualize para um modelo válido
             messages=[
                 {"role": "system", "content": "Você é um assistente que recomenda especialidades odontológicas."},
                 {"role": "user", "content": f"A queixa do paciente é: '{queixa}'. Responda com apenas o nome da especialidade odontológica recomendada para este caso, sem explicações adicionais. Você poderá apenas escolher entre as opções: Ortodontia, Endodontia, Periodontia, Cirurgia, Dentística, Prótese, Odontopediatria, Estomatologia, Radiologia, Harmonização Facial e Implantodontia. Não coloque o ponto final na mensagem."}
