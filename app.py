@@ -7,7 +7,7 @@ import google.generativeai as genai
 notion = Client(auth=st.secrets["NOTION_TOKEN"])
 
 # ID do banco de dados do Notion (substitua com o ID do seu banco de dados)
-DATABASE_ID = "1333918868ec8043896ce777ce180e42"
+DATABASE_ID = "1403918868ec8012b75cd27eedfd6e2e"
 
 # Configuração da API Google Gemini
 API_KEY = st.secrets["GEMINI_KEY"]
