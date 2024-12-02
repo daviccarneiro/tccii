@@ -23,7 +23,7 @@ def enviar_para_notion(dados, especialidade):
             "Endereço": {"rich_text": [{"text": {"content": dados["endereco"]}}]},
             "Data de Nascimento": {"date": {"start": dados["data_nascimento"].isoformat()}},
             "CPF": {"rich_text": [{"text": {"content": dados["cpf"]}}]},
-            "Telefone": {"phone_number": dados["telefone"]},
+            "Telefone": {"rich_text": dados["telefone"]},
             "Email": {"email": dados["email"]},  # Corrigido para ser um campo de e-mail válido
             "Queixa Principal": {"rich_text": [{"text": {"content": dados["queixa_principal"]}}]},
             "Alergias Medicamentosas": {"rich_text": [{"text": {"content": dados["alergias"]}}]},
@@ -32,7 +32,7 @@ def enviar_para_notion(dados, especialidade):
             "Fuma": {"checkbox": dados["fuma"]},
             "Escovações por Dia": {"number": dados["escovacoes_por_dia"]},
             "Status": {"status": {"name": "Pendente"}},
-            "Especialidade Recomendada": {"multi_select": [{"name": especialidade}]}
+            "Especialidade Recomendada": {"select": [{"name": especialidade}]}
         }
     )
     return response
