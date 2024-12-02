@@ -23,8 +23,8 @@ def enviar_para_notion(dados, especialidade):
             "Endereço": {"rich_text": [{"text": {"content": dados["endereco"]}}]},
             "Data de Nascimento": {"date": {"start": dados["data_nascimento"].isoformat()}},
             "CPF": {"rich_text": [{"text": {"content": dados["cpf"]}}]},
-            "Telefone": {"phone_number": dados["telefone"]},  # Corrigido para usar o tipo correto
-            "Email": {"email": dados["email"]},  # Campo de email válido
+            "Telefone": {"rich_text": [{"text": {"content": dados["telefone"]}}]},  # Corrigido para rich_text
+            "Email": {"email": dados["email"]},
             "Queixa Principal": {"rich_text": [{"text": {"content": dados["queixa_principal"]}}]},
             "Alergias Medicamentosas": {"rich_text": [{"text": {"content": dados["alergias"]}}]},
             "Uso de Medicamentos": {"rich_text": [{"text": {"content": dados["medicamentos"]}}]},
